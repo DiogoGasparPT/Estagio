@@ -1,0 +1,120 @@
+def functable(path):
+    
+ 
+    with open(path) as f:
+     
+        for line in f:               
+                #print (line.__repr__())
+
+            temp= line.strip().split("\t")
+            
+
+            for i in range ((len(temp)-1)):
+                                
+
+                if temp[i].startswith('EOT1D')== True:
+                    EOT1Dlist.append(i)
+                    
+                if temp[i].startswith('HG')== True:
+                    HGlist.append(i)
+            
+    
+            
+            counter_00=0
+            counter_10=0
+            counter_01=0
+            counter_11=0
+            HGcounter_00=0 
+            HGcounter_10=0
+            HGcounter_01=0
+            HGcounter_11=0
+
+
+            a=(temp[6])
+            chrom=(temp[152])
+            b=(temp[153])
+            c=(temp[154])
+            z=(temp[3])
+            x=(temp[4])
+            v=(temp[15])
+
+            ah=(temp[6])
+            chromh=(temp[152])
+            bh=(temp[153])
+            ch=(temp[154])
+            zh=(temp[3])
+            xh=(temp[4])
+            vh=(temp[15])
+            aah= ah+'_'+chromh+'_'+bh+'_'+ch+'_'+zh+'_'+xh+'_'+vh
+            
+            aa= a+'_'+chrom+'_'+b+'_'+c+'_'+z+'_'+x+'_'+v
+            for i in EOT1Dlist:
+        
+                d= (temp[i].split(':')[0])
+        
+                pos=(temp[i].split(':'))
+              
+                if pos[0]== '0/0': 
+                    counter_00= counter_00 +1                    
+                if pos[0]== '1/0':
+                    counter_10= counter_10 +1
+                if pos[0]== '0/1':
+                    counter_01= counter_01 +1
+                if pos[0]== '1/1':
+                    counter_11= counter_11 +1
+                else:
+                    pass
+                    #print ('ops')
+             
+                      
+            for i in HGlist:
+                pos=(temp[i].split(':'))
+                dh=(temp[i].split(':')[0])
+              
+                if pos[0]== '0/0': 
+                    HGcounter_00= HGcounter_00 +1 
+
+                if pos[0]== '1/0':
+                    HGcounter_10= HGcounter_10 +1
+
+                if pos[0]== '0/1':
+                    HGcounter_01= HGcounter_01 +1
+
+                if pos[0]== '1/1':
+                    HGcounter_11= HGcounter_11 +1
+
+                else:
+                    pass
+                    #print ('ops')
+
+            EOT1dcounteroutput=((counter_01+counter_10)+counter_11*2)/len(EOT1Dlist)
+            HGcounteroutput= ((HGcounter_01+HGcounter_10)+HGcounter_11*2)/len(HGlist)
+
+            pontos= abs((EOT1dcounteroutput - HGcounteroutput))   
+                              
+
+            teste123=open('C:\\Users\\Diogo\\Desktop\\Estagio\\dataset\\EOT1D_+abs.txt', 'a')        
+            teste123.write(aa) 
+            teste123.write(' ' + str(EOT1dcounteroutput)+' '+ str(pontos)+'\n')
+            teste123.close()  
+
+            teste1234=open('C:\\Users\\Diogo\\Desktop\\Estagio\\dataset\\HG_+abs.txt', 'a')        
+            teste1234.write(aah)      
+            teste1234.write(' ' + str(HGcounteroutput)+' '+str(pontos)+'\n')
+            teste1234.close() 
+
+  
+ 
+            
+
+                
+
+
+
+
+
+string=''
+EOT1Dlist=[] # guarda as posiçoes 
+HGlist=[] # guarda as posições
+functable("C:\\Users\\Diogo\\Desktop\\Estagio\\dataset\\Tabela_Final_2.txt")
+print ('done')
